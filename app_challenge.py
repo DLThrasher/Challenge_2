@@ -6,23 +6,28 @@ This is a command line application to match applicants with qualifying loans.
 Example:
     $ python app.py
 """
+from http import HTTPStatus
+from sqlite3 import Row
 import sys
 import fire
 import questionary
 from pathlib import Path
 
-from qualifier.utils.fileio import load_csv
+from sympy import ask
 
-from qualifier.utils.calculators import (
+from fileio import load_csv
+
+from calculators import (
     calculate_monthly_debt_ratio,
     calculate_loan_to_value_ratio,
 )
 
-from qualifier.filters.max_loan_size import filter_max_loan_size
-from qualifier.filters.credit_score import filter_credit_score
-from qualifier.filters.debt_to_income import filter_debt_to_income
-from qualifier.filters.loan_to_value import filter_loan_to_value
+from max_loan_size import filter_max_loan_size
+from credit_score import filter_credit_score
+from debt_to_income import filter_debt_to_income
+from loan_to_value import filter_loan_to_value
 
+#rate_file = "C:\Users\dthra\Downloads\Starter_Code (2)\Starter_Code\loan_qualifier_app\data\daily_rate_sheet.csv"
 
 def load_bank_data():
     """Ask for the file path to the latest banking data and load the CSV file.
@@ -31,7 +36,7 @@ def load_bank_data():
         The bank data from the data rate sheet CSV file.
     """
 
-    csvpath = questionary.text("Enter a file path to a rate-sheet (.csv):").ask()
+    csvpath = questionary.text("C:\Users\dthra\Downloads\Starter_Code (2)\Starter_Code\loan_qualifier_app\data\daily_rate_sheet.csv").ask()
     csvpath = Path(csvpath)
     if not csvpath.exists():
         sys.exit(f"Oops! Can't find this path: {csvpath}")
@@ -109,7 +114,22 @@ def save_qualifying_loans(qualifying_loans):
         qualifying_loans (list of lists): The qualifying bank loans.
     """
     # @TODO: Complete the usability dialog for savings the CSV Files.
-    # YOUR CODE HERE!
+    # text file, 1. where is the file, if you want to read or write to a file.
+    # use questionary for usability dialog
+    save_qualifying_loans = questionary.text("Would you like to save your qualifying loans?".confirm.ask())
+    save_csv = questionary.text ("Would you like to save the output file path?").ask()
+
+    # with open (file_path, "w") #file_path the name of the csv file current directory
+    # csv.write
+    # csv.write(row)
+
+with open("daily_rate_sheet.csv", "w") as rate_file:
+        (rate_file.write())
+        (rate_file.write(Row))
+    
+
+    
+    
 
 
 def run():
